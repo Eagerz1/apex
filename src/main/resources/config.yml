@@ -1,0 +1,2131 @@
+# =====================================================================
+# Apex SkyBlock Progression - default configuration
+# Every balance value lives here; the plugin hard codes nothing.
+# Identifiers (roles, unlocks, nodes) are permanent keys - renaming a
+# display-name is always safe, renaming an id resets stored progress.
+# =====================================================================
+
+storage:
+  # sqlite (default) or mysql / mariadb
+  type: sqlite
+  file: progression.db
+  table-prefix: apexsb_
+  save-interval-seconds: 300
+  mysql:
+    host: localhost
+    port: 3306
+    database: skyblock
+    username: root
+    password: ""
+    parameters: "useSSL=false&characterEncoding=utf8"
+
+general:
+  # Ticks between generator/spawner ticks. 20 ticks = 1 second.
+  generator-task-interval: 20
+  spawner-task-interval: 40
+  # Maximum blocks a single OmniTool area-mining proc may break.
+  max-area-blocks: 27
+  level-up-broadcast: true
+
+economy:
+  # What happens to money costs when Vault (or any economy plugin) is missing:
+  #   waive - the money part of a cost is skipped, the feature keeps working
+  #   block - money dependent actions are refused with a clear message
+  missing-vault-behaviour: waive
+
+currency:
+  display-name: "Sky Token"
+  display-name-plural: "Sky Tokens"
+  symbol: "\u2726"
+  max-balance: 1000000000
+  placeholder-name: skytokens
+
+season:
+  season-id: season-1
+  display-name: "Season 1"
+  xp-multiplier: 1.0
+  token-multiplier: 1.0
+  # What a season rollover wipes. Anything omitted is preserved forever.
+  reset:
+    - island_xp
+    - mastery_xp
+    - role_xp
+    - omnitool_upgrades
+    - generators
+    - spawners
+  # Statistics that survive every reset (lifetime totals).
+  protected-stats:
+    - lifetime_tokens_earned
+  keep-companions: true
+  keep-tokens: false
+
+island:
+  # Island XP granted per unit of a generic source. Skills add their own XP.
+  xp-sources:
+    block_mined: 1.0
+    crop_harvested: 1.0
+    fish_caught: 2.0
+    mob_killed: 1.5
+    log_chopped: 1.0
+    generator_cycle: 0.5
+    role_level: 250.0
+    spawner_tier: 400.0
+  levels:
+    1:
+      title: "Homestead"
+      xp-required: 1200
+      token-reward: 75
+      money-reward: 1000
+      unlocks:
+        - basic_generators
+      description:
+        - "Your island starts producing."
+      commands: []
+    2:
+      title: "Apprentice"
+      xp-required: 1450
+      token-reward: 100
+      money-reward: 2000
+      unlocks:
+        - role_selection
+      description:
+        - "Choose your role."
+      commands: []
+    3:
+      title: "Prospector"
+      xp-required: 1700
+      token-reward: 125
+      money-reward: 3000
+      unlocks:
+        - omnitool_efficiency
+      description:
+        - "OmniTool efficiency node."
+      commands: []
+    4:
+      title: "Cultivator"
+      xp-required: 2000
+      token-reward: 150
+      money-reward: 4000
+      unlocks:
+        - farming_autoreplant
+      description:
+        - "Crops replant themselves."
+      commands: []
+    5:
+      title: "Forgeworks"
+      xp-required: 2400
+      token-reward: 175
+      money-reward: 5000
+      unlocks:
+        - generator_tier_2
+      description:
+        - "Generator tier 2."
+      commands: []
+    6:
+      title: "Angler"
+      xp-required: 2850
+      token-reward: 200
+      money-reward: 6000
+      unlocks:
+        - fishing_luck
+      description:
+        - "Fishing luck node + rare catches."
+      commands: []
+    7:
+      title: "Beastpen"
+      xp-required: 3400
+      token-reward: 225
+      money-reward: 7000
+      unlocks:
+        - spawner_tier_1
+      description:
+        - "Progression spawners."
+      commands: []
+    8:
+      title: "Excavator"
+      xp-required: 4050
+      token-reward: 250
+      money-reward: 8000
+      unlocks:
+        - omnitool_fortune
+      description:
+        - "Fortune node."
+      commands: []
+    9:
+      title: "Specialist"
+      xp-required: 4850
+      token-reward: 275
+      money-reward: 9000
+      unlocks:
+        - mastery_system
+      description:
+        - "Island Mastery unlocked."
+      commands: []
+    10:
+      title: "Industrialist"
+      xp-required: 5750
+      token-reward: 300
+      money-reward: 10000
+      unlocks:
+        - generator_tier_3
+      description:
+        - "Generator tier 3."
+      commands: []
+    11:
+      title: "Botanist"
+      xp-required: 6850
+      token-reward: 325
+      money-reward: 11000
+      unlocks:
+        - crops_tier_2
+      description:
+        - "Tier 2 crops."
+      commands: []
+    12:
+      title: "Hunter"
+      xp-required: 8150
+      token-reward: 350
+      money-reward: 12000
+      unlocks:
+        - slayer_tier_2
+      description:
+        - "Tier 2 slayer targets."
+      commands: []
+    13:
+      title: "Companion Keeper"
+      xp-required: 9700
+      token-reward: 375
+      money-reward: 13000
+      unlocks:
+        - companion_system
+      description:
+        - "Companions unlocked."
+      commands: []
+    14:
+      title: "Tunneler"
+      xp-required: 11500
+      token-reward: 400
+      money-reward: 14000
+      unlocks:
+        - omnitool_area_mining
+      description:
+        - "Area mining."
+      commands: []
+    15:
+      title: "Refinery"
+      xp-required: 13700
+      token-reward: 425
+      money-reward: 15000
+      unlocks:
+        - generator_tier_4
+      description:
+        - "Generator tier 4."
+      commands: []
+    16:
+      title: "Warden"
+      xp-required: 16300
+      token-reward: 450
+      money-reward: 16000
+      unlocks:
+        - spawner_tier_2
+      description:
+        - "Spawner tier 2."
+      commands: []
+    17:
+      title: "Deepminer"
+      xp-required: 19400
+      token-reward: 475
+      money-reward: 17000
+      unlocks:
+        - mining_tier_2
+      description:
+        - "Deep ores."
+      commands: []
+    18:
+      title: "Deepsea"
+      xp-required: 23100
+      token-reward: 500
+      money-reward: 18000
+      unlocks:
+        - fishing_tier_2
+      description:
+        - "Deep sea loot."
+      commands: []
+    19:
+      title: "Lumberlord"
+      xp-required: 27500
+      token-reward: 525
+      money-reward: 19000
+      unlocks:
+        - omnitool_lumber
+      description:
+        - "Tree felling."
+      commands: []
+    20:
+      title: "Foundry"
+      xp-required: 32700
+      token-reward: 550
+      money-reward: 20000
+      unlocks:
+        - generator_tier_5
+      description:
+        - "Generator tier 5."
+      commands: []
+    21:
+      title: "Bondsmith"
+      xp-required: 38900
+      token-reward: 575
+      money-reward: 21000
+      unlocks:
+        - companion_merging
+      description:
+        - "Companion merging."
+      commands: []
+    22:
+      title: "Grandmaster"
+      xp-required: 46300
+      token-reward: 600
+      money-reward: 22000
+      unlocks:
+        - mastery_branch_2
+      description:
+        - "Second mastery branch."
+      commands: []
+    23:
+      title: "Beastmaster"
+      xp-required: 55100
+      token-reward: 625
+      money-reward: 23000
+      unlocks:
+        - spawner_tier_3
+      description:
+        - "Spawner tier 3."
+      commands: []
+    24:
+      title: "Artificer"
+      xp-required: 65600
+      token-reward: 650
+      money-reward: 24000
+      unlocks:
+        - omnitool_special_procs
+      description:
+        - "Special procs."
+      commands: []
+    25:
+      title: "Mythwright"
+      xp-required: 78050
+      token-reward: 675
+      money-reward: 25000
+      unlocks:
+        - generator_tier_6
+      description:
+        - "Generator tier 6."
+      commands: []
+    26:
+      title: "Voidminer"
+      xp-required: 92850
+      token-reward: 700
+      money-reward: 26000
+      unlocks:
+        - mining_tier_3
+      description:
+        - "Void ores."
+      commands: []
+    27:
+      title: "Executioner"
+      xp-required: 110500
+      token-reward: 725
+      money-reward: 27000
+      unlocks:
+        - slayer_tier_3
+      description:
+        - "Tier 3 slayer targets."
+      commands: []
+    28:
+      title: "Tokenseeker"
+      xp-required: 131500
+      token-reward: 750
+      money-reward: 28000
+      unlocks:
+        - omnitool_token_find
+      description:
+        - "Token find node."
+      commands: []
+    29:
+      title: "Overlord"
+      xp-required: 156500
+      token-reward: 775
+      money-reward: 29000
+      unlocks:
+        - spawner_tier_4
+      description:
+        - "Spawner tier 4."
+      commands: []
+    30:
+      title: "Ascendant"
+      xp-required: 186250
+      token-reward: 800
+      money-reward: 30000
+      unlocks:
+        - prestige_workshop
+      description:
+        - "Seasonal prestige workshop."
+      commands: []
+
+mastery:
+  categories:
+    mining:
+      display-name: "Mining Mastery"
+      icon: IRON_PICKAXE
+      xp-curve:
+        type: geometric
+        max-level: 25
+        base: 800
+        growth: 1.22
+      xp-sources:
+        block_mined: 1.0
+      unlocks:
+        efficient_hands:
+          level: 3
+          type: xp_bonus
+          value: 0.05
+          label: "Efficient Hands"
+          description:
+            - "&7+5% mining XP"
+        lucky_touch:
+          level: 7
+          type: rare_drop
+          value: 0.01
+          label: "Lucky Touch"
+          description:
+            - "&7+1% rare drop chance"
+        token_sense:
+          level: 12
+          type: token_find
+          value: 0.01
+          label: "Token Sense"
+          description:
+            - "&7+1% Sky Token find chance"
+        specialist_ability:
+          level: 18
+          type: ability
+          value: 1.0
+          label: "Mining Mastery Ability"
+          description:
+            - "&7Unlocks the mining specialist ability"
+        grandmaster:
+          level: 25
+          type: xp_bonus
+          value: 0.15
+          label: "Grandmaster"
+          description:
+            - "&7+15% mining XP"
+    farming:
+      display-name: "Farming Mastery"
+      icon: IRON_HOE
+      xp-curve:
+        type: geometric
+        max-level: 25
+        base: 800
+        growth: 1.22
+      xp-sources:
+        crop_harvested: 1.0
+      unlocks:
+        efficient_hands:
+          level: 3
+          type: xp_bonus
+          value: 0.05
+          label: "Efficient Hands"
+          description:
+            - "&7+5% farming XP"
+        lucky_touch:
+          level: 7
+          type: rare_drop
+          value: 0.01
+          label: "Lucky Touch"
+          description:
+            - "&7+1% rare drop chance"
+        token_sense:
+          level: 12
+          type: token_find
+          value: 0.01
+          label: "Token Sense"
+          description:
+            - "&7+1% Sky Token find chance"
+        specialist_ability:
+          level: 18
+          type: ability
+          value: 1.0
+          label: "Farming Mastery Ability"
+          description:
+            - "&7Unlocks the farming specialist ability"
+        grandmaster:
+          level: 25
+          type: xp_bonus
+          value: 0.15
+          label: "Grandmaster"
+          description:
+            - "&7+15% farming XP"
+    fishing:
+      display-name: "Fishing Mastery"
+      icon: FISHING_ROD
+      xp-curve:
+        type: geometric
+        max-level: 25
+        base: 800
+        growth: 1.22
+      xp-sources:
+        fish_caught: 1.0
+      unlocks:
+        efficient_hands:
+          level: 3
+          type: xp_bonus
+          value: 0.05
+          label: "Efficient Hands"
+          description:
+            - "&7+5% fishing XP"
+        lucky_touch:
+          level: 7
+          type: rare_drop
+          value: 0.01
+          label: "Lucky Touch"
+          description:
+            - "&7+1% rare drop chance"
+        token_sense:
+          level: 12
+          type: token_find
+          value: 0.01
+          label: "Token Sense"
+          description:
+            - "&7+1% Sky Token find chance"
+        specialist_ability:
+          level: 18
+          type: ability
+          value: 1.0
+          label: "Fishing Mastery Ability"
+          description:
+            - "&7Unlocks the fishing specialist ability"
+        grandmaster:
+          level: 25
+          type: xp_bonus
+          value: 0.15
+          label: "Grandmaster"
+          description:
+            - "&7+15% fishing XP"
+    slayer:
+      display-name: "Slayer Mastery"
+      icon: IRON_SWORD
+      xp-curve:
+        type: geometric
+        max-level: 25
+        base: 800
+        growth: 1.22
+      xp-sources:
+        mob_killed: 1.0
+      unlocks:
+        efficient_hands:
+          level: 3
+          type: xp_bonus
+          value: 0.05
+          label: "Efficient Hands"
+          description:
+            - "&7+5% slayer XP"
+        lucky_touch:
+          level: 7
+          type: rare_drop
+          value: 0.01
+          label: "Lucky Touch"
+          description:
+            - "&7+1% rare drop chance"
+        token_sense:
+          level: 12
+          type: token_find
+          value: 0.01
+          label: "Token Sense"
+          description:
+            - "&7+1% Sky Token find chance"
+        specialist_ability:
+          level: 18
+          type: ability
+          value: 1.0
+          label: "Slayer Mastery Ability"
+          description:
+            - "&7Unlocks the slayer specialist ability"
+        grandmaster:
+          level: 25
+          type: xp_bonus
+          value: 0.15
+          label: "Grandmaster"
+          description:
+            - "&7+15% slayer XP"
+    logging:
+      display-name: "Logging Mastery"
+      icon: IRON_AXE
+      xp-curve:
+        type: geometric
+        max-level: 25
+        base: 800
+        growth: 1.22
+      xp-sources:
+        log_chopped: 1.0
+      unlocks:
+        efficient_hands:
+          level: 3
+          type: xp_bonus
+          value: 0.05
+          label: "Efficient Hands"
+          description:
+            - "&7+5% logging XP"
+        lucky_touch:
+          level: 7
+          type: rare_drop
+          value: 0.01
+          label: "Lucky Touch"
+          description:
+            - "&7+1% rare drop chance"
+        token_sense:
+          level: 12
+          type: token_find
+          value: 0.01
+          label: "Token Sense"
+          description:
+            - "&7+1% Sky Token find chance"
+        specialist_ability:
+          level: 18
+          type: ability
+          value: 1.0
+          label: "Logging Mastery Ability"
+          description:
+            - "&7Unlocks the logging specialist ability"
+        grandmaster:
+          level: 25
+          type: xp_bonus
+          value: 0.15
+          label: "Grandmaster"
+          description:
+            - "&7+15% logging XP"
+    generators:
+      display-name: "Generator Mastery"
+      icon: COBBLESTONE
+      xp-curve:
+        type: geometric
+        max-level: 25
+        base: 800
+        growth: 1.22
+      xp-sources:
+        generator_cycle: 1.0
+      unlocks:
+        efficient_hands:
+          level: 3
+          type: xp_bonus
+          value: 0.05
+          label: "Efficient Hands"
+          description:
+            - "&7+5% generators XP"
+        lucky_touch:
+          level: 7
+          type: rare_drop
+          value: 0.01
+          label: "Lucky Touch"
+          description:
+            - "&7+1% rare drop chance"
+        token_sense:
+          level: 12
+          type: token_find
+          value: 0.01
+          label: "Token Sense"
+          description:
+            - "&7+1% Sky Token find chance"
+        specialist_ability:
+          level: 18
+          type: ability
+          value: 1.0
+          label: "Generator Mastery Ability"
+          description:
+            - "&7Unlocks the generators specialist ability"
+        grandmaster:
+          level: 25
+          type: xp_bonus
+          value: 0.15
+          label: "Grandmaster"
+          description:
+            - "&7+15% generators XP"
+
+roles-config:
+  default-role: miner
+  roles:
+    miner:
+      display-name: "Miner"
+      icon: DIAMOND_PICKAXE
+      omnitool: omni_pickaxe
+      required-island-level: 0
+      description:
+        - "&7Specialise as a Miner."
+      xp-curve:
+        type: geometric
+        max-level: 50
+        base: 400
+        growth: 1.14
+      perks:
+        5:
+          xp_boost:
+            type: xp_bonus
+            value: 0.03
+            label: "Focused"
+        15:
+          token_luck:
+            type: token_find
+            value: 0.005
+            label: "Token Luck"
+        30:
+          xp_boost_2:
+            type: xp_bonus
+            value: 0.05
+            label: "Veteran"
+        50:
+          mastery_boost:
+            type: rare_drop
+            value: 0.02
+            label: "Legend"
+    farmer:
+      display-name: "Farmer"
+      icon: DIAMOND_HOE
+      omnitool: omni_hoe
+      required-island-level: 0
+      description:
+        - "&7Specialise as a Farmer."
+      xp-curve:
+        type: geometric
+        max-level: 50
+        base: 400
+        growth: 1.14
+      perks:
+        5:
+          xp_boost:
+            type: xp_bonus
+            value: 0.03
+            label: "Focused"
+        15:
+          token_luck:
+            type: token_find
+            value: 0.005
+            label: "Token Luck"
+        30:
+          xp_boost_2:
+            type: xp_bonus
+            value: 0.05
+            label: "Veteran"
+        50:
+          mastery_boost:
+            type: rare_drop
+            value: 0.02
+            label: "Legend"
+    fisher:
+      display-name: "Fisher"
+      icon: FISHING_ROD
+      omnitool: omni_rod
+      required-island-level: 0
+      description:
+        - "&7Specialise as a Fisher."
+      xp-curve:
+        type: geometric
+        max-level: 50
+        base: 400
+        growth: 1.14
+      perks:
+        5:
+          xp_boost:
+            type: xp_bonus
+            value: 0.03
+            label: "Focused"
+        15:
+          token_luck:
+            type: token_find
+            value: 0.005
+            label: "Token Luck"
+        30:
+          xp_boost_2:
+            type: xp_bonus
+            value: 0.05
+            label: "Veteran"
+        50:
+          mastery_boost:
+            type: rare_drop
+            value: 0.02
+            label: "Legend"
+    slayer:
+      display-name: "Slayer"
+      icon: DIAMOND_SWORD
+      omnitool: omni_blade
+      required-island-level: 0
+      description:
+        - "&7Specialise as a Slayer."
+      xp-curve:
+        type: geometric
+        max-level: 50
+        base: 400
+        growth: 1.14
+      perks:
+        5:
+          xp_boost:
+            type: xp_bonus
+            value: 0.03
+            label: "Focused"
+        15:
+          token_luck:
+            type: token_find
+            value: 0.005
+            label: "Token Luck"
+        30:
+          xp_boost_2:
+            type: xp_bonus
+            value: 0.05
+            label: "Veteran"
+        50:
+          mastery_boost:
+            type: rare_drop
+            value: 0.02
+            label: "Legend"
+    logger:
+      display-name: "Logger"
+      icon: DIAMOND_AXE
+      omnitool: omni_axe
+      required-island-level: 0
+      description:
+        - "&7Specialise as a Logger."
+      xp-curve:
+        type: geometric
+        max-level: 50
+        base: 400
+        growth: 1.14
+      perks:
+        5:
+          xp_boost:
+            type: xp_bonus
+            value: 0.03
+            label: "Focused"
+        15:
+          token_luck:
+            type: token_find
+            value: 0.005
+            label: "Token Luck"
+        30:
+          xp_boost_2:
+            type: xp_bonus
+            value: 0.05
+            label: "Veteran"
+        50:
+          mastery_boost:
+            type: rare_drop
+            value: 0.02
+            label: "Legend"
+    universal:
+      display-name: "Universal"
+      icon: NETHER_STAR
+      omnitool: omni_tool
+      required-island-level: 12
+      description:
+        - "&7Specialise as a Universal."
+      xp-curve:
+        type: geometric
+        max-level: 50
+        base: 400
+        growth: 1.14
+      perks:
+        5:
+          xp_boost:
+            type: xp_bonus
+            value: 0.03
+            label: "Focused"
+        15:
+          token_luck:
+            type: token_find
+            value: 0.005
+            label: "Token Luck"
+        30:
+          xp_boost_2:
+            type: xp_bonus
+            value: 0.05
+            label: "Veteran"
+        50:
+          mastery_boost:
+            type: rare_drop
+            value: 0.02
+            label: "Legend"
+
+omnitools-config:
+  omnitools:
+    omni_pickaxe:
+      display-name: "&bMiner OmniTool"
+      role: miner
+      material: DIAMOND_PICKAXE
+      nodes:
+        efficiency:
+          display-name: "Efficiency"
+          icon: REDSTONE
+          effect: efficiency
+          max-level: 5
+          base-value: 0.0
+          value-per-level: 1.0
+          token-cost-base: 150
+          token-cost-per-level: 120
+          money-cost-base: 0.0
+          money-cost-per-level: 0.0
+          required-role-level: 2
+          role-level-per-node-level: 2
+          required-island-level: 3
+          required-unlock: omnitool_efficiency
+          description:
+            - "&7+1 mining/break speed per level"
+        xp_bonus:
+          display-name: "Insight"
+          icon: EXPERIENCE_BOTTLE
+          effect: xp_bonus
+          max-level: 5
+          base-value: 0.0
+          value-per-level: 0.03
+          token-cost-base: 200
+          token-cost-per-level: 175
+          money-cost-base: 0.0
+          money-cost-per-level: 0.0
+          required-role-level: 3
+          role-level-per-node-level: 2
+          required-island-level: 0
+          description:
+            - "&7+3% XP per level"
+        token_find:
+          display-name: "Token Find"
+          icon: SUNFLOWER
+          effect: token_find
+          max-level: 5
+          base-value: 0.0
+          value-per-level: 0.01
+          token-cost-base: 400
+          token-cost-per-level: 350
+          money-cost-base: 0.0
+          money-cost-per-level: 0.0
+          required-role-level: 10
+          role-level-per-node-level: 3
+          required-island-level: 28
+          required-unlock: omnitool_token_find
+          description:
+            - "&7+1% Sky Token find chance per level"
+        fortune:
+          display-name: "Fortune"
+          icon: LAPIS_LAZULI
+          effect: fortune
+          max-level: 4
+          base-value: 0.0
+          value-per-level: 0.15
+          token-cost-base: 300
+          token-cost-per-level: 250
+          money-cost-base: 0.0
+          money-cost-per-level: 0.0
+          required-role-level: 6
+          role-level-per-node-level: 3
+          required-island-level: 8
+          required-unlock: omnitool_fortune
+          description:
+            - "&7+15% extra drops per level"
+        area_mining:
+          display-name: "Area Mining"
+          icon: TNT
+          effect: area_mining
+          max-level: 3
+          base-value: 0.0
+          value-per-level: 1.0
+          token-cost-base: 900
+          token-cost-per-level: 900
+          money-cost-base: 0.0
+          money-cost-per-level: 0.0
+          required-role-level: 15
+          role-level-per-node-level: 5
+          required-island-level: 14
+          required-unlock: omnitool_area_mining
+          description:
+            - "&7Mines a 3x3 (and larger) area"
+        rare_drop:
+          display-name: "Vein Sense"
+          icon: AMETHYST_SHARD
+          effect: rare_drop
+          max-level: 3
+          base-value: 0.0
+          value-per-level: 0.01
+          token-cost-base: 750
+          token-cost-per-level: 650
+          money-cost-base: 0.0
+          money-cost-per-level: 0.0
+          required-role-level: 20
+          role-level-per-node-level: 4
+          required-island-level: 17
+          required-unlock: mining_tier_2
+          description:
+            - "&7+1% rare mining drop per level"
+    omni_hoe:
+      display-name: "&aFarmer OmniTool"
+      role: farmer
+      material: DIAMOND_HOE
+      nodes:
+        efficiency:
+          display-name: "Efficiency"
+          icon: REDSTONE
+          effect: efficiency
+          max-level: 5
+          base-value: 0.0
+          value-per-level: 1.0
+          token-cost-base: 150
+          token-cost-per-level: 120
+          money-cost-base: 0.0
+          money-cost-per-level: 0.0
+          required-role-level: 2
+          role-level-per-node-level: 2
+          required-island-level: 3
+          required-unlock: omnitool_efficiency
+          description:
+            - "&7+1 mining/break speed per level"
+        xp_bonus:
+          display-name: "Insight"
+          icon: EXPERIENCE_BOTTLE
+          effect: xp_bonus
+          max-level: 5
+          base-value: 0.0
+          value-per-level: 0.03
+          token-cost-base: 200
+          token-cost-per-level: 175
+          money-cost-base: 0.0
+          money-cost-per-level: 0.0
+          required-role-level: 3
+          role-level-per-node-level: 2
+          required-island-level: 0
+          description:
+            - "&7+3% XP per level"
+        token_find:
+          display-name: "Token Find"
+          icon: SUNFLOWER
+          effect: token_find
+          max-level: 5
+          base-value: 0.0
+          value-per-level: 0.01
+          token-cost-base: 400
+          token-cost-per-level: 350
+          money-cost-base: 0.0
+          money-cost-per-level: 0.0
+          required-role-level: 10
+          role-level-per-node-level: 3
+          required-island-level: 28
+          required-unlock: omnitool_token_find
+          description:
+            - "&7+1% Sky Token find chance per level"
+        auto_replant:
+          display-name: "Auto Replant"
+          icon: WHEAT_SEEDS
+          effect: auto_replant
+          max-level: 1
+          base-value: 0.0
+          value-per-level: 1.0
+          token-cost-base: 500
+          token-cost-per-level: 0
+          money-cost-base: 0.0
+          money-cost-per-level: 0.0
+          required-role-level: 5
+          role-level-per-node-level: 0
+          required-island-level: 4
+          required-unlock: farming_autoreplant
+          description:
+            - "&7Harvested crops replant themselves"
+        crop_radius:
+          display-name: "Harvest Radius"
+          icon: HAY_BLOCK
+          effect: crop_radius
+          max-level: 3
+          base-value: 0.0
+          value-per-level: 1.0
+          token-cost-base: 800
+          token-cost-per-level: 800
+          money-cost-base: 0.0
+          money-cost-per-level: 0.0
+          required-role-level: 12
+          role-level-per-node-level: 5
+          required-island-level: 11
+          required-unlock: crops_tier_2
+          description:
+            - "&7Harvests a larger radius per level"
+        crop_multiplier:
+          display-name: "Bountiful"
+          icon: GOLDEN_CARROT
+          effect: fortune
+          max-level: 4
+          base-value: 0.0
+          value-per-level: 0.12
+          token-cost-base: 350
+          token-cost-per-level: 275
+          money-cost-base: 0.0
+          money-cost-per-level: 0.0
+          required-role-level: 8
+          role-level-per-node-level: 3
+          required-island-level: 0
+          description:
+            - "&7+12% crop yield per level"
+    omni_axe:
+      display-name: "&6Logger OmniTool"
+      role: logger
+      material: DIAMOND_AXE
+      nodes:
+        efficiency:
+          display-name: "Efficiency"
+          icon: REDSTONE
+          effect: efficiency
+          max-level: 5
+          base-value: 0.0
+          value-per-level: 1.0
+          token-cost-base: 150
+          token-cost-per-level: 120
+          money-cost-base: 0.0
+          money-cost-per-level: 0.0
+          required-role-level: 2
+          role-level-per-node-level: 2
+          required-island-level: 3
+          required-unlock: omnitool_efficiency
+          description:
+            - "&7+1 mining/break speed per level"
+        xp_bonus:
+          display-name: "Insight"
+          icon: EXPERIENCE_BOTTLE
+          effect: xp_bonus
+          max-level: 5
+          base-value: 0.0
+          value-per-level: 0.03
+          token-cost-base: 200
+          token-cost-per-level: 175
+          money-cost-base: 0.0
+          money-cost-per-level: 0.0
+          required-role-level: 3
+          role-level-per-node-level: 2
+          required-island-level: 0
+          description:
+            - "&7+3% XP per level"
+        token_find:
+          display-name: "Token Find"
+          icon: SUNFLOWER
+          effect: token_find
+          max-level: 5
+          base-value: 0.0
+          value-per-level: 0.01
+          token-cost-base: 400
+          token-cost-per-level: 350
+          money-cost-base: 0.0
+          money-cost-per-level: 0.0
+          required-role-level: 10
+          role-level-per-node-level: 3
+          required-island-level: 28
+          required-unlock: omnitool_token_find
+          description:
+            - "&7+1% Sky Token find chance per level"
+        lumber:
+          display-name: "Tree Feller"
+          icon: OAK_LOG
+          effect: lumber
+          max-level: 3
+          base-value: 0.0
+          value-per-level: 8.0
+          token-cost-base: 850
+          token-cost-per-level: 700
+          money-cost-base: 0.0
+          money-cost-per-level: 0.0
+          required-role-level: 14
+          role-level-per-node-level: 5
+          required-island-level: 19
+          required-unlock: omnitool_lumber
+          description:
+            - "&7Fells up to 8 extra logs per level"
+        timber_fortune:
+          display-name: "Timber Fortune"
+          icon: STRIPPED_OAK_LOG
+          effect: fortune
+          max-level: 4
+          base-value: 0.0
+          value-per-level: 0.12
+          token-cost-base: 320
+          token-cost-per-level: 260
+          money-cost-base: 0.0
+          money-cost-per-level: 0.0
+          required-role-level: 7
+          role-level-per-node-level: 3
+          required-island-level: 0
+          description:
+            - "&7+12% log yield per level"
+    omni_rod:
+      display-name: "&3Fisher OmniTool"
+      role: fisher
+      material: FISHING_ROD
+      nodes:
+        efficiency:
+          display-name: "Efficiency"
+          icon: REDSTONE
+          effect: efficiency
+          max-level: 5
+          base-value: 0.0
+          value-per-level: 1.0
+          token-cost-base: 150
+          token-cost-per-level: 120
+          money-cost-base: 0.0
+          money-cost-per-level: 0.0
+          required-role-level: 2
+          role-level-per-node-level: 2
+          required-island-level: 3
+          required-unlock: omnitool_efficiency
+          description:
+            - "&7+1 mining/break speed per level"
+        xp_bonus:
+          display-name: "Insight"
+          icon: EXPERIENCE_BOTTLE
+          effect: xp_bonus
+          max-level: 5
+          base-value: 0.0
+          value-per-level: 0.03
+          token-cost-base: 200
+          token-cost-per-level: 175
+          money-cost-base: 0.0
+          money-cost-per-level: 0.0
+          required-role-level: 3
+          role-level-per-node-level: 2
+          required-island-level: 0
+          description:
+            - "&7+3% XP per level"
+        token_find:
+          display-name: "Token Find"
+          icon: SUNFLOWER
+          effect: token_find
+          max-level: 5
+          base-value: 0.0
+          value-per-level: 0.01
+          token-cost-base: 400
+          token-cost-per-level: 350
+          money-cost-base: 0.0
+          money-cost-per-level: 0.0
+          required-role-level: 10
+          role-level-per-node-level: 3
+          required-island-level: 28
+          required-unlock: omnitool_token_find
+          description:
+            - "&7+1% Sky Token find chance per level"
+        fishing_luck:
+          display-name: "Sea Luck"
+          icon: NAUTILUS_SHELL
+          effect: fishing_luck
+          max-level: 4
+          base-value: 0.0
+          value-per-level: 0.05
+          token-cost-base: 300
+          token-cost-per-level: 280
+          money-cost-base: 0.0
+          money-cost-per-level: 0.0
+          required-role-level: 6
+          role-level-per-node-level: 3
+          required-island-level: 6
+          required-unlock: fishing_luck
+          description:
+            - "&7+5% rare catch chance per level"
+        fishing_speed:
+          display-name: "Quick Cast"
+          icon: LILY_PAD
+          effect: fishing_speed
+          max-level: 4
+          base-value: 0.0
+          value-per-level: 0.08
+          token-cost-base: 280
+          token-cost-per-level: 250
+          money-cost-base: 0.0
+          money-cost-per-level: 0.0
+          required-role-level: 5
+          role-level-per-node-level: 3
+          required-island-level: 0
+          description:
+            - "&7-8% bite time per level"
+    omni_blade:
+      display-name: "&cSlayer OmniTool"
+      role: slayer
+      material: DIAMOND_SWORD
+      nodes:
+        efficiency:
+          display-name: "Efficiency"
+          icon: REDSTONE
+          effect: efficiency
+          max-level: 5
+          base-value: 0.0
+          value-per-level: 1.0
+          token-cost-base: 150
+          token-cost-per-level: 120
+          money-cost-base: 0.0
+          money-cost-per-level: 0.0
+          required-role-level: 2
+          role-level-per-node-level: 2
+          required-island-level: 3
+          required-unlock: omnitool_efficiency
+          description:
+            - "&7+1 mining/break speed per level"
+        xp_bonus:
+          display-name: "Insight"
+          icon: EXPERIENCE_BOTTLE
+          effect: xp_bonus
+          max-level: 5
+          base-value: 0.0
+          value-per-level: 0.03
+          token-cost-base: 200
+          token-cost-per-level: 175
+          money-cost-base: 0.0
+          money-cost-per-level: 0.0
+          required-role-level: 3
+          role-level-per-node-level: 2
+          required-island-level: 0
+          description:
+            - "&7+3% XP per level"
+        token_find:
+          display-name: "Token Find"
+          icon: SUNFLOWER
+          effect: token_find
+          max-level: 5
+          base-value: 0.0
+          value-per-level: 0.01
+          token-cost-base: 400
+          token-cost-per-level: 350
+          money-cost-base: 0.0
+          money-cost-per-level: 0.0
+          required-role-level: 10
+          role-level-per-node-level: 3
+          required-island-level: 28
+          required-unlock: omnitool_token_find
+          description:
+            - "&7+1% Sky Token find chance per level"
+        mob_damage:
+          display-name: "Slayer Edge"
+          icon: IRON_SWORD
+          effect: mob_damage
+          max-level: 5
+          base-value: 0.0
+          value-per-level: 0.06
+          token-cost-base: 320
+          token-cost-per-level: 300
+          money-cost-base: 0.0
+          money-cost-per-level: 0.0
+          required-role-level: 4
+          role-level-per-node-level: 3
+          required-island-level: 0
+          description:
+            - "&7+6% damage to hostile mobs per level"
+        special_proc:
+          display-name: "Executioner"
+          icon: WITHER_SKELETON_SKULL
+          effect: special_proc
+          max-level: 3
+          base-value: 0.0
+          value-per-level: 0.02
+          token-cost-base: 950
+          token-cost-per-level: 900
+          money-cost-base: 0.0
+          money-cost-per-level: 0.0
+          required-role-level: 18
+          role-level-per-node-level: 6
+          required-island-level: 24
+          required-unlock: omnitool_special_procs
+          description:
+            - "&7+2% chance of an instant execute proc"
+    omni_tool:
+      display-name: "&dUniversal OmniTool"
+      role: universal
+      material: NETHERITE_PICKAXE
+      nodes:
+        efficiency:
+          display-name: "Efficiency"
+          icon: REDSTONE
+          effect: efficiency
+          max-level: 5
+          base-value: 0.0
+          value-per-level: 1.0
+          token-cost-base: 150
+          token-cost-per-level: 120
+          money-cost-base: 0.0
+          money-cost-per-level: 0.0
+          required-role-level: 2
+          role-level-per-node-level: 2
+          required-island-level: 3
+          required-unlock: omnitool_efficiency
+          description:
+            - "&7+1 mining/break speed per level"
+        xp_bonus:
+          display-name: "Insight"
+          icon: EXPERIENCE_BOTTLE
+          effect: xp_bonus
+          max-level: 5
+          base-value: 0.0
+          value-per-level: 0.03
+          token-cost-base: 200
+          token-cost-per-level: 175
+          money-cost-base: 0.0
+          money-cost-per-level: 0.0
+          required-role-level: 3
+          role-level-per-node-level: 2
+          required-island-level: 0
+          description:
+            - "&7+3% XP per level"
+        token_find:
+          display-name: "Token Find"
+          icon: SUNFLOWER
+          effect: token_find
+          max-level: 5
+          base-value: 0.0
+          value-per-level: 0.01
+          token-cost-base: 400
+          token-cost-per-level: 350
+          money-cost-base: 0.0
+          money-cost-per-level: 0.0
+          required-role-level: 10
+          role-level-per-node-level: 3
+          required-island-level: 28
+          required-unlock: omnitool_token_find
+          description:
+            - "&7+1% Sky Token find chance per level"
+        versatility:
+          display-name: "Versatility"
+          icon: NETHER_STAR
+          effect: xp_bonus
+          max-level: 3
+          base-value: 0.0
+          value-per-level: 0.04
+          token-cost-base: 1200
+          token-cost-per-level: 1000
+          money-cost-base: 0.0
+          money-cost-per-level: 0.0
+          required-role-level: 20
+          role-level-per-node-level: 5
+          required-island-level: 12
+          description:
+            - "&7+4% XP for every skill per level"
+
+skills:
+  mining:
+    role: miner
+    mastery-category: mining
+    rare-drop-chance: 0.01
+    sources:
+      STONE:
+        role-xp: 1
+        island-xp: 1
+        mastery-xp: 1
+        required-island-level: 0
+        token-chance: 0.001
+        token-amount: 1
+      DEEPSLATE:
+        role-xp: 2
+        island-xp: 1
+        mastery-xp: 2
+        required-island-level: 0
+        token-chance: 0.002
+        token-amount: 1
+      COAL_ORE:
+        role-xp: 3
+        island-xp: 2
+        mastery-xp: 3
+        required-island-level: 0
+        token-chance: 0.004
+        token-amount: 1
+      IRON_ORE:
+        role-xp: 5
+        island-xp: 3
+        mastery-xp: 4
+        required-island-level: 0
+        token-chance: 0.006
+        token-amount: 1
+      GOLD_ORE:
+        role-xp: 8
+        island-xp: 4
+        mastery-xp: 6
+        required-island-level: 5
+        token-chance: 0.008
+        token-amount: 2
+      DIAMOND_ORE:
+        role-xp: 18
+        island-xp: 10
+        mastery-xp: 14
+        required-island-level: 10
+        token-chance: 0.02
+        token-amount: 3
+      EMERALD_ORE:
+        role-xp: 22
+        island-xp: 12
+        mastery-xp: 16
+        required-island-level: 17
+        token-chance: 0.03
+        token-amount: 4
+      ANCIENT_DEBRIS:
+        role-xp: 45
+        island-xp: 25
+        mastery-xp: 35
+        required-island-level: 26
+        token-chance: 0.06
+        token-amount: 10
+    rare-drops:
+      enriched_coal:
+        material: COAL_BLOCK
+        amount: 1
+        weight: 60
+        required-island-level: 0
+        tokens: 2
+      crystal_shard:
+        material: AMETHYST_SHARD
+        amount: 2
+        weight: 30
+        required-island-level: 10
+        tokens: 5
+      void_core:
+        material: NETHERITE_SCRAP
+        amount: 1
+        weight: 10
+        required-island-level: 26
+        tokens: 25
+    milestones:
+      first_thousand:
+        amount: 1000
+        tokens: 100
+        island-xp: 500
+        unlocks: []
+      ten_thousand:
+        amount: 10000
+        tokens: 750
+        island-xp: 4000
+        unlocks: []
+      hundred_thousand:
+        amount: 100000
+        tokens: 6000
+        island-xp: 30000
+        unlocks: []
+  farming:
+    role: farmer
+    mastery-category: farming
+    rare-drop-chance: 0.008
+    sources:
+      WHEAT:
+        role-xp: 2
+        island-xp: 1
+        mastery-xp: 2
+        required-island-level: 0
+        token-chance: 0.002
+        token-amount: 1
+      CARROTS:
+        role-xp: 2
+        island-xp: 1
+        mastery-xp: 2
+        required-island-level: 0
+        token-chance: 0.002
+        token-amount: 1
+      POTATOES:
+        role-xp: 2
+        island-xp: 1
+        mastery-xp: 2
+        required-island-level: 0
+        token-chance: 0.002
+        token-amount: 1
+      BEETROOTS:
+        role-xp: 3
+        island-xp: 1
+        mastery-xp: 2
+        required-island-level: 0
+        token-chance: 0.002
+        token-amount: 1
+      SUGAR_CANE:
+        role-xp: 2
+        island-xp: 1
+        mastery-xp: 2
+        required-island-level: 0
+        token-chance: 0.002
+        token-amount: 1
+      MELON:
+        role-xp: 3
+        island-xp: 2
+        mastery-xp: 3
+        required-island-level: 11
+        token-chance: 0.004
+        token-amount: 1
+      PUMPKIN:
+        role-xp: 3
+        island-xp: 2
+        mastery-xp: 3
+        required-island-level: 11
+        token-chance: 0.004
+        token-amount: 1
+      NETHER_WART:
+        role-xp: 6
+        island-xp: 3
+        mastery-xp: 5
+        required-island-level: 11
+        token-chance: 0.01
+        token-amount: 2
+    rare-drops:
+      golden_seed:
+        material: GOLDEN_CARROT
+        amount: 1
+        weight: 70
+        required-island-level: 0
+        tokens: 3
+      mythic_sprout:
+        material: ENCHANTED_GOLDEN_APPLE
+        amount: 1
+        weight: 5
+        required-island-level: 11
+        tokens: 40
+    milestones:
+      green_thumb:
+        amount: 2500
+        tokens: 200
+        island-xp: 1200
+        unlocks: []
+      harvest_lord:
+        amount: 50000
+        tokens: 4000
+        island-xp: 20000
+        unlocks: []
+  fishing:
+    role: fisher
+    mastery-category: fishing
+    rare-drop-chance: 0.12
+    sources:
+      COD:
+        role-xp: 6
+        island-xp: 3
+        mastery-xp: 5
+        required-island-level: 0
+        token-chance: 0.01
+        token-amount: 1
+      SALMON:
+        role-xp: 8
+        island-xp: 4
+        mastery-xp: 6
+        required-island-level: 0
+        token-chance: 0.012
+        token-amount: 1
+      TROPICAL_FISH:
+        role-xp: 14
+        island-xp: 7
+        mastery-xp: 10
+        required-island-level: 6
+        token-chance: 0.02
+        token-amount: 2
+      PUFFERFISH:
+        role-xp: 16
+        island-xp: 8
+        mastery-xp: 12
+        required-island-level: 6
+        token-chance: 0.025
+        token-amount: 2
+    rare-drops:
+      shimmer_scale:
+        material: PRISMARINE_SHARD
+        amount: 1
+        weight: 60
+        required-island-level: 0
+        tokens: 4
+      abyssal_pearl:
+        material: HEART_OF_THE_SEA
+        amount: 1
+        weight: 8
+        required-island-level: 18
+        tokens: 60
+      treasure_map:
+        material: MAP
+        amount: 1
+        weight: 32
+        required-island-level: 6
+        tokens: 10
+    milestones:
+      angler:
+        amount: 500
+        tokens: 150
+        island-xp: 900
+        unlocks: []
+      deepsea_master:
+        amount: 10000
+        tokens: 3500
+        island-xp: 18000
+        unlocks: []
+  slayer:
+    role: slayer
+    mastery-category: slayer
+    rare-drop-chance: 0.02
+    sources:
+      ZOMBIE:
+        role-xp: 5
+        island-xp: 3
+        mastery-xp: 4
+        required-island-level: 0
+        token-chance: 0.004
+        token-amount: 1
+      SKELETON:
+        role-xp: 6
+        island-xp: 3
+        mastery-xp: 5
+        required-island-level: 0
+        token-chance: 0.004
+        token-amount: 1
+      SPIDER:
+        role-xp: 5
+        island-xp: 3
+        mastery-xp: 4
+        required-island-level: 0
+        token-chance: 0.004
+        token-amount: 1
+      CREEPER:
+        role-xp: 8
+        island-xp: 4
+        mastery-xp: 6
+        required-island-level: 0
+        token-chance: 0.006
+        token-amount: 1
+      ENDERMAN:
+        role-xp: 16
+        island-xp: 8
+        mastery-xp: 12
+        required-island-level: 12
+        token-chance: 0.015
+        token-amount: 3
+      BLAZE:
+        role-xp: 18
+        island-xp: 9
+        mastery-xp: 13
+        required-island-level: 12
+        token-chance: 0.018
+        token-amount: 3
+      WITHER_SKELETON:
+        role-xp: 30
+        island-xp: 15
+        mastery-xp: 22
+        required-island-level: 27
+        token-chance: 0.03
+        token-amount: 6
+    rare-drops:
+      soul_fragment:
+        material: SOUL_SAND
+        amount: 1
+        weight: 70
+        required-island-level: 0
+        tokens: 5
+      slayer_sigil:
+        material: NETHER_STAR
+        amount: 1
+        weight: 4
+        required-island-level: 27
+        tokens: 80
+    milestones:
+      first_blood:
+        amount: 250
+        tokens: 100
+        island-xp: 600
+        unlocks: []
+      reaper:
+        amount: 25000
+        tokens: 5000
+        island-xp: 24000
+        unlocks: []
+  logging:
+    role: logger
+    mastery-category: logging
+    rare-drop-chance: 0.01
+    sources:
+      OAK_LOG:
+        role-xp: 3
+        island-xp: 2
+        mastery-xp: 3
+        required-island-level: 0
+        token-chance: 0.003
+        token-amount: 1
+      BIRCH_LOG:
+        role-xp: 3
+        island-xp: 2
+        mastery-xp: 3
+        required-island-level: 0
+        token-chance: 0.003
+        token-amount: 1
+      SPRUCE_LOG:
+        role-xp: 3
+        island-xp: 2
+        mastery-xp: 3
+        required-island-level: 0
+        token-chance: 0.003
+        token-amount: 1
+      JUNGLE_LOG:
+        role-xp: 4
+        island-xp: 2
+        mastery-xp: 3
+        required-island-level: 0
+        token-chance: 0.003
+        token-amount: 1
+      ACACIA_LOG:
+        role-xp: 4
+        island-xp: 2
+        mastery-xp: 3
+        required-island-level: 0
+        token-chance: 0.003
+        token-amount: 1
+      DARK_OAK_LOG:
+        role-xp: 5
+        island-xp: 3
+        mastery-xp: 4
+        required-island-level: 0
+        token-chance: 0.004
+        token-amount: 1
+      CHERRY_LOG:
+        role-xp: 6
+        island-xp: 3
+        mastery-xp: 5
+        required-island-level: 11
+        token-chance: 0.006
+        token-amount: 2
+      MANGROVE_LOG:
+        role-xp: 6
+        island-xp: 3
+        mastery-xp: 5
+        required-island-level: 11
+        token-chance: 0.006
+        token-amount: 2
+    rare-drops:
+      heartwood:
+        material: OAK_SAPLING
+        amount: 2
+        weight: 80
+        required-island-level: 0
+        tokens: 3
+      ancient_bark:
+        material: MANGROVE_ROOTS
+        amount: 3
+        weight: 20
+        required-island-level: 19
+        tokens: 15
+    milestones:
+      woodcutter:
+        amount: 2000
+        tokens: 180
+        island-xp: 1000
+        unlocks: []
+      forest_lord:
+        amount: 40000
+        tokens: 4200
+        island-xp: 21000
+        unlocks: []
+
+generators-config:
+  generators:
+    cobble_gen:
+      display-name: "&7Cobble Generator"
+      icon: COBBLESTONE
+      max-per-island: 24
+      tiers:
+        1:
+          display-name: "Cobble Generator I"
+          interval-ticks: 100
+          output-amount: 1
+          required-island-level: 0
+          required-unlock: 
+          token-cost: 0
+          money-cost: 0
+          island-xp-per-cycle: 1
+          mastery-xp-per-cycle: 1
+          abilities:
+            - auto_collect
+          outputs:
+            COBBLESTONE: 100
+        2:
+          display-name: "Cobble Generator II"
+          interval-ticks: 80
+          output-amount: 1
+          required-island-level: 5
+          required-unlock: generator_tier_2
+          token-cost: 750
+          money-cost: 5000
+          island-xp-per-cycle: 2
+          mastery-xp-per-cycle: 2
+          abilities:
+            - auto_collect
+          outputs:
+            COBBLESTONE: 80
+            COAL: 20
+        3:
+          display-name: "Reinforced Generator III"
+          interval-ticks: 60
+          output-amount: 1
+          required-island-level: 10
+          required-unlock: generator_tier_3
+          token-cost: 2500
+          money-cost: 25000
+          island-xp-per-cycle: 3
+          mastery-xp-per-cycle: 3
+          abilities:
+            - auto_collect
+          outputs:
+            COBBLESTONE: 60
+            IRON_INGOT: 25
+            COAL: 15
+        4:
+          display-name: "Refined Generator IV"
+          interval-ticks: 45
+          output-amount: 2
+          required-island-level: 15
+          required-unlock: generator_tier_4
+          token-cost: 7500
+          money-cost: 90000
+          island-xp-per-cycle: 5
+          mastery-xp-per-cycle: 5
+          abilities:
+            - auto_collect
+          outputs:
+            IRON_INGOT: 45
+            GOLD_INGOT: 35
+            REDSTONE: 20
+        5:
+          display-name: "Foundry Generator V"
+          interval-ticks: 30
+          output-amount: 2
+          required-island-level: 20
+          required-unlock: generator_tier_5
+          token-cost: 20000
+          money-cost: 250000
+          island-xp-per-cycle: 8
+          mastery-xp-per-cycle: 8
+          abilities:
+            - auto_collect
+          outputs:
+            GOLD_INGOT: 45
+            DIAMOND: 25
+            EMERALD: 30
+        6:
+          display-name: "Mythic Generator VI"
+          interval-ticks: 20
+          output-amount: 3
+          required-island-level: 25
+          required-unlock: generator_tier_6
+          token-cost: 60000
+          money-cost: 750000
+          island-xp-per-cycle: 12
+          mastery-xp-per-cycle: 12
+          abilities:
+            - auto_collect
+          outputs:
+            DIAMOND: 45
+            EMERALD: 30
+            NETHERITE_SCRAP: 25
+
+spawners-config:
+  spawners:
+    progression_spawner:
+      display-name: "&5Progression Spawner"
+      icon: SPAWNER
+      max-per-island: 8
+      max-stack-size: 5
+      tiers:
+        1:
+          display-name: "Zombie Spawner"
+          entity-type: ZOMBIE
+          interval-ticks: 200
+          spawn-amount: 1
+          max-nearby-entities: 10
+          required-island-level: 7
+          required-unlock: spawner_tier_1
+          token-cost: 0
+          money-cost: 0
+          slayer-xp-bonus: 0.0
+          abilities:
+            - island_only
+        2:
+          display-name: "Skeleton Spawner"
+          entity-type: SKELETON
+          interval-ticks: 180
+          spawn-amount: 1
+          max-nearby-entities: 12
+          required-island-level: 16
+          required-unlock: spawner_tier_2
+          token-cost: 5000
+          money-cost: 50000
+          slayer-xp-bonus: 0.1
+          abilities:
+            - island_only
+        3:
+          display-name: "Blaze Spawner"
+          entity-type: BLAZE
+          interval-ticks: 160
+          spawn-amount: 1
+          max-nearby-entities: 12
+          required-island-level: 23
+          required-unlock: spawner_tier_3
+          token-cost: 18000
+          money-cost: 200000
+          slayer-xp-bonus: 0.25
+          abilities:
+            - island_only
+        4:
+          display-name: "Wither Skeleton Spawner"
+          entity-type: WITHER_SKELETON
+          interval-ticks: 140
+          spawn-amount: 1
+          max-nearby-entities: 10
+          required-island-level: 29
+          required-unlock: spawner_tier_4
+          token-cost: 55000
+          money-cost: 650000
+          slayer-xp-bonus: 0.5
+          abilities:
+            - island_only
+
+companions-config:
+  max-per-player: 9
+  merge-xp-carry: 0.5
+  rarities:
+    common:
+      display-name: "Common"
+      colour: "&7"
+      max-level: 50
+      xp-base: 120
+      xp-growth: 1.06
+      ability-scale: 1.0
+      merge-cost: 500
+      next-rarity: rare
+    rare:
+      display-name: "Rare"
+      colour: "&9"
+      max-level: 70
+      xp-base: 180
+      xp-growth: 1.06
+      ability-scale: 1.35
+      merge-cost: 2500
+      next-rarity: epic
+    epic:
+      display-name: "Epic"
+      colour: "&5"
+      max-level: 100
+      xp-base: 260
+      xp-growth: 1.06
+      ability-scale: 1.8
+      merge-cost: 10000
+      next-rarity: mythic
+    mythic:
+      display-name: "Mythic"
+      colour: "&6"
+      max-level: 200
+      xp-base: 400
+      xp-growth: 1.05
+      ability-scale: 2.5
+      merge-cost: 0
+      next-rarity: ""
+  companions:
+    rock_golem:
+      display-name: "Rock Golem"
+      icon: STONE
+      ability: mining_xp_bonus
+      ability-base: 0.02
+      ability-per-level: 0.002
+      rarity: common
+      required-island-level: 13
+      description:
+        - "&7Boosts mining XP."
+    harvest_sprite:
+      display-name: "Harvest Sprite"
+      icon: WHEAT
+      ability: farming_xp_bonus
+      ability-base: 0.02
+      ability-per-level: 0.002
+      rarity: common
+      required-island-level: 13
+      description:
+        - "&7Boosts farming XP."
+    tide_otter:
+      display-name: "Tide Otter"
+      icon: SALMON
+      ability: fishing_xp_bonus
+      ability-base: 0.03
+      ability-per-level: 0.002
+      rarity: rare
+      required-island-level: 13
+      description:
+        - "&7Boosts fishing XP."
+    shadow_wolf:
+      display-name: "Shadow Wolf"
+      icon: BONE
+      ability: slayer_xp_bonus
+      ability-base: 0.03
+      ability-per-level: 0.0025
+      rarity: rare
+      required-island-level: 13
+      description:
+        - "&7Boosts slayer XP."
+    timber_owl:
+      display-name: "Timber Owl"
+      icon: OAK_SAPLING
+      ability: logging_xp_bonus
+      ability-base: 0.03
+      ability-per-level: 0.002
+      rarity: epic
+      required-island-level: 13
+      description:
+        - "&7Boosts logging XP."
+    token_drake:
+      display-name: "Token Drake"
+      icon: GOLD_NUGGET
+      ability: token_find
+      ability-base: 0.01
+      ability-per-level: 0.0005
+      rarity: mythic
+      required-island-level: 13
+      description:
+        - "&7Finds extra Sky Tokens."
+
+gui:
+  filler-material: GRAY_STAINED_GLASS_PANE
+  progression-title: "&8Progression Overview"
+  island-title: "&8Island Levels"
+  mastery-title: "&8Island Mastery"
+  roles-title: "&8Roles"
+  omnitool-title: "&8OmniTool Upgrades"
+  generators-title: "&8Generators"
+  spawners-title: "&8Spawners"
+  companions-title: "&8Companions"
+
+messages:
+  prefix: "&b&lSKY &8\u00bb &r"
+  no-permission: "&cYou do not have permission to do that."
+  player-only: "&cThis command can only be used in game."
+  unknown-player: "&cUnknown player."
+  unknown-subcommand: "&cUnknown subcommand. Try /progression help."
+  reloaded: "&aConfiguration reloaded in %ms%ms."
+  reload-failed: "&cReload failed: %error%"
+  invalid-amount: "&cEnter a valid positive amount."
+  island-level-up: "&aYour island reached level &e%level% &7(%title%)&a!"
+  island-unlock: "&d\u2726 Unlocked: &f%unlock%"
+  role-level-up: "&aYour &e%role% &arole reached level &e%level%&a!"
+  mastery-level-up: "&aMastery &e%category% &areached level &e%level%&a!"
+  role-selected: "&aYou are now a &e%role%&a."
+  role-already-active: "&cThat role is already active."
+  role-island-level: "&cYour island must be level %level% to pick that role."
+  role-unknown: "&cUnknown role."
+  tokens-received: "&a+%amount% %currency%"
+  tokens-spent: "&e-%amount% %currency%"
+  tokens-balance: "&7Balance: &e%amount% %currency%"
+  tokens-insufficient: "&cYou need %amount% more %currency%."
+  upgrade-success: "&a%node% upgraded to level &e%level%&a."
+  upgrade-max-level: "&cThat upgrade is already maxed."
+  upgrade-role-level: "&cRequires role level %level%."
+  upgrade-island-level: "&cRequires island level %level%."
+  upgrade-locked: "&cThat upgrade is still locked."
+  economy-unavailable: "&cThis feature needs Vault, which is not installed."
+  generator-placed: "&aGenerator placed (tier %tier%)."
+  generator-limit: "&cYou reached the generator limit for this island."
+  generator-upgraded: "&aGenerator upgraded to tier %tier%."
+  generator-max-tier: "&cThat generator is at its maximum tier."
+  spawner-placed: "&aSpawner placed (tier %tier%)."
+  spawner-stacked: "&aSpawner stacked (x%amount%)."
+  spawner-limit: "&cYou reached the spawner limit for this island."
+  spawner-upgraded: "&aSpawner upgraded to tier %tier%."
+  companion-granted: "&aYou received the &e%companion% &acompanion!"
+  companion-merged: "&aCompanions merged into &e%rarity% %companion%&a."
+  companion-merge-mismatch: "&cBoth companions must be the same type and rarity."
+  companion-limit: "&cYou cannot hold any more companions."
+  companion-active: "&aActive companion: &e%companion%"
+  season-reset: "&eSeason %season% started - progression has been reset."
+  gui-locked: "&cLocked."
+  gui-click-disabled: "&cYou cannot take items from this menu."

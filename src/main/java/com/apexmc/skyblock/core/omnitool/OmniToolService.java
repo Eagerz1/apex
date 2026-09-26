@@ -4,7 +4,7 @@ import com.apexmc.skyblock.core.config.Cfg;
 import com.apexmc.skyblock.core.config.ConfigException;
 import com.apexmc.skyblock.core.currency.TokenService;
 import com.apexmc.skyblock.core.data.PlayerProfile;
-import com.apexmc.skyblock.core.economy.EconomyBridge;
+import com.apexmc.skyblock.core.economy.EconomyGateway;
 import com.apexmc.skyblock.core.util.Ids;
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -21,9 +21,9 @@ public final class OmniToolService {
 
     private Map<String, OmniToolDefinition> tools;
     private final TokenService tokens;
-    private EconomyBridge economy;
+    private EconomyGateway economy;
 
-    public OmniToolService(Map<String, OmniToolDefinition> tools, TokenService tokens, EconomyBridge economy) {
+    public OmniToolService(Map<String, OmniToolDefinition> tools, TokenService tokens, EconomyGateway economy) {
         this.tools = Map.copyOf(tools);
         this.tokens = tokens;
         this.economy = economy;
@@ -82,7 +82,7 @@ public final class OmniToolService {
         this.tools = Map.copyOf(tools);
     }
 
-    public void economy(EconomyBridge economy) {
+    public void economy(EconomyGateway economy) {
         this.economy = economy;
     }
 
@@ -171,19 +171,14 @@ public final class OmniToolService {
             return UpgradeResult.fail("role-level", current);
         }
         long tokenCost = node.tokenCost(current);
-        double moneyCost = node.moneyCost(current);
         if (!tokens.has(profile, tokenCost)) {
             return UpgradeResult.fail("insufficient-tokens", current);
         }
-        if (moneyCost > 0) {
-            if (!economy.available()) {
-                return UpgradeResult.fail("economy-unavailable", current);
-            }
-            if (!economy.has(profile.playerId(), moneyCost)) {
-                return UpgradeResult.fail("insufficient-money", current);
-            }
+        EconomyGateway.Charge charge = economy.quote(profile.playerId(), node.moneyCost(current));
+        if (!charge.ok()) {
+            return UpgradeResult.fail(charge.reason(), current);
         }
-        return new UpgradeResult(true, "ok", current + 1, tokenCost, moneyCost);
+        return new UpgradeResult(true, "ok", current + 1, tokenCost, charge.amount());
     }
 
     /** Validates, charges and applies a single node upgrade. */

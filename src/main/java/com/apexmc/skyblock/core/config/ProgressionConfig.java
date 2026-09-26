@@ -35,6 +35,7 @@ public record ProgressionConfig(IslandLevelConfig islandLevels,
                                 double companionMergeXpCarry,
                                 SeasonConfig season,
                                 CurrencySettings currency,
+                                com.apexmc.skyblock.core.economy.EconomyGateway.Policy missingEconomyPolicy,
                                 Messages messages,
                                 ValidationReport report) {
 
@@ -76,12 +77,22 @@ public record ProgressionConfig(IslandLevelConfig islandLevels,
                 currencyCfg.getString("placeholder-name", "skytokens"));
         Messages messages = Messages.fromConfig(root.sectionOrEmpty("messages"));
 
+        Cfg economyCfg = root.sectionOrEmpty("economy");
+        com.apexmc.skyblock.core.economy.EconomyGateway.Policy economyPolicy;
+        String behaviour = economyCfg.getString("missing-vault-behaviour", "waive");
+        try {
+            economyPolicy = com.apexmc.skyblock.core.economy.EconomyGateway.Policy.fromId(behaviour);
+        } catch (IllegalArgumentException ex) {
+            throw new ConfigException(economyCfg.path() + ".missing-vault-behaviour",
+                    "must be 'waive' or 'block' (got '" + behaviour + "')");
+        }
+
         ValidationReport report = new ValidationReport();
         validate(report, islandLevels, mastery, roles, omniTools, skills, generators, spawners, rarities, companions);
         report.throwIfInvalid();
 
         return new ProgressionConfig(islandLevels, mastery, roles, omniTools, skills, generators, spawners,
-                rarities, companions, maxCompanions, mergeCarry, season, currency, messages, report);
+                rarities, companions, maxCompanions, mergeCarry, season, currency, economyPolicy, messages, report);
     }
 
     private static void validate(ValidationReport report,

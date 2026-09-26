@@ -7,7 +7,7 @@ import com.apexmc.skyblock.core.data.BlockPosition;
 import com.apexmc.skyblock.core.data.IslandProfile;
 import com.apexmc.skyblock.core.data.PlayerProfile;
 import com.apexmc.skyblock.core.data.SpawnerState;
-import com.apexmc.skyblock.core.economy.EconomyBridge;
+import com.apexmc.skyblock.core.economy.EconomyGateway;
 import com.apexmc.skyblock.core.generators.UpgradeOutcome;
 import com.apexmc.skyblock.core.progression.IslandProgressionService;
 import com.apexmc.skyblock.core.util.Ids;
@@ -31,13 +31,13 @@ public final class SpawnerService {
     private Map<String, SpawnerType> types;
     private final TokenService tokens;
     private final IslandProgressionService islands;
-    private EconomyBridge economy;
+    private EconomyGateway economy;
 
     private final Map<String, SpawnerState> byPosition = new ConcurrentHashMap<>();
     private final Map<UUID, Map<UUID, SpawnerState>> byIsland = new ConcurrentHashMap<>();
 
     public SpawnerService(Map<String, SpawnerType> types, TokenService tokens,
-                          IslandProgressionService islands, EconomyBridge economy) {
+                          IslandProgressionService islands, EconomyGateway economy) {
         this.types = Map.copyOf(types);
         this.tokens = tokens;
         this.islands = islands;
@@ -120,7 +120,7 @@ public final class SpawnerService {
         this.types = Map.copyOf(types);
     }
 
-    public void economy(EconomyBridge economy) {
+    public void economy(EconomyGateway economy) {
         this.economy = economy;
     }
 
@@ -258,15 +258,11 @@ public final class SpawnerService {
         if (!tokens.has(payer, tokenCost)) {
             return UpgradeOutcome.fail("insufficient-tokens", state.tier());
         }
-        if (moneyCost > 0) {
-            if (!economy.available()) {
-                return UpgradeOutcome.fail("economy-unavailable", state.tier());
-            }
-            if (!economy.has(payer.playerId(), moneyCost)) {
-                return UpgradeOutcome.fail("insufficient-money", state.tier());
-            }
+        EconomyGateway.Charge charge = economy.quote(payer.playerId(), moneyCost);
+        if (!charge.ok()) {
+            return UpgradeOutcome.fail(charge.reason(), state.tier());
         }
-        return UpgradeOutcome.ok(next, tokenCost, moneyCost);
+        return UpgradeOutcome.ok(next, tokenCost, charge.amount());
     }
 
     public UpgradeOutcome upgrade(IslandProfile island, PlayerProfile payer, SpawnerState state) {

@@ -93,7 +93,10 @@ public final class Cfg {
 
     public String getString(String key, String def) {
         Object value = data.get(key);
-        return value == null ? def : String.valueOf(value);
+        if (value == null || (value instanceof Map<?, ?> map && map.isEmpty())) {
+            return def;
+        }
+        return String.valueOf(value);
     }
 
     public int getInt(String key) {

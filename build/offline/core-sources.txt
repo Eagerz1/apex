@@ -47,6 +47,7 @@ src/main/java/com/apexmc/skyblock/core/currency/TokenTransaction.java
 src/main/java/com/apexmc/skyblock/core/currency/TokenService.java
 src/main/java/com/apexmc/skyblock/core/economy/EconomyBridge.java
 src/main/java/com/apexmc/skyblock/core/economy/DisabledEconomy.java
+src/main/java/com/apexmc/skyblock/core/economy/EconomyGateway.java
 src/main/java/com/apexmc/skyblock/core/season/SeasonConfig.java
 src/main/java/com/apexmc/skyblock/core/season/SeasonService.java
 src/main/java/com/apexmc/skyblock/core/season/SeasonResetReport.java
@@ -64,5 +65,6 @@ src/main/java/com/apexmc/skyblock/core/data/ProfileCodec.java
 src/main/java/com/apexmc/skyblock/core/data/ProgressionRepository.java
 src/main/java/com/apexmc/skyblock/core/data/InMemoryRepository.java
 src/main/java/com/apexmc/skyblock/core/data/ProfileManager.java
+src/main/java/com/apexmc/skyblock/core/data/DelegatingRepository.java
 src/main/java/com/apexmc/skyblock/core/api/SkyblockProgressionAPI.java
 src/main/java/com/apexmc/skyblock/core/service/ProgressionServices.java

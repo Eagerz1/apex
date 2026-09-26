@@ -5,6 +5,7 @@ import com.apexmc.skyblock.core.config.ProgressionConfig;
 import com.apexmc.skyblock.core.currency.TokenService;
 import com.apexmc.skyblock.core.economy.DisabledEconomy;
 import com.apexmc.skyblock.core.economy.EconomyBridge;
+import com.apexmc.skyblock.core.economy.EconomyGateway;
 import com.apexmc.skyblock.core.generators.GeneratorService;
 import com.apexmc.skyblock.core.mastery.MasteryService;
 import com.apexmc.skyblock.core.omnitool.OmniToolService;
@@ -22,7 +23,7 @@ import com.apexmc.skyblock.core.spawners.SpawnerService;
 public final class ProgressionServices {
 
     private ProgressionConfig config;
-    private EconomyBridge economy;
+    private final EconomyGateway economy;
 
     private final TokenService tokens;
     private final IslandProgressionService islands;
@@ -37,7 +38,7 @@ public final class ProgressionServices {
 
     public ProgressionServices(ProgressionConfig config, EconomyBridge economy) {
         this.config = config;
-        this.economy = economy == null ? new DisabledEconomy() : economy;
+        this.economy = new EconomyGateway(economy == null ? new DisabledEconomy() : economy, config.missingEconomyPolicy());
         this.tokens = new TokenService(config.currency().displayName(), config.currency().displayNamePlural(),
                 config.currency().symbol(), config.currency().maxBalance());
         this.islands = new IslandProgressionService(config.islandLevels());
@@ -66,15 +67,14 @@ public final class ProgressionServices {
         generators.reload(config.generators());
         spawners.reload(config.spawners());
         companions.reload(config.companions(), config.companionRarities(), config.maxCompanionsPerPlayer());
+        economy.policy(config.missingEconomyPolicy());
         seasons.reload(config.season());
         applySeasonMultipliers();
     }
 
-    public void economy(EconomyBridge economy) {
-        this.economy = economy == null ? new DisabledEconomy() : economy;
-        omniTools.economy(this.economy);
-        generators.economy(this.economy);
-        spawners.economy(this.economy);
+    /** Swaps the economy provider at runtime (e.g. Vault loaded after this plugin). */
+    public void economy(EconomyBridge bridge) {
+        economy.bridge(bridge);
     }
 
     private void applySeasonMultipliers() {
@@ -87,7 +87,7 @@ public final class ProgressionServices {
         return config;
     }
 
-    public EconomyBridge economy() {
+    public EconomyGateway economy() {
         return economy;
     }
 

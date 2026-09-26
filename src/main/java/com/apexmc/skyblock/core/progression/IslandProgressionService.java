@@ -87,7 +87,15 @@ public final class IslandProgressionService {
 
     /** True when the island level (or an explicit grant) unlocked the feature. */
     public boolean isUnlocked(IslandProfile island, String unlockId) {
-        String id = Ids.normalize(unlockId);
+        if (unlockId == null || unlockId.isBlank()) {
+            return true;
+        }
+        String id;
+        try {
+            id = Ids.normalize(unlockId);
+        } catch (IllegalArgumentException ex) {
+            return false;
+        }
         if (island.grantedUnlocks().contains(id)) {
             return true;
         }

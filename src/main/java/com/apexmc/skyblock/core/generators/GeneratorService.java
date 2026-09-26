@@ -7,7 +7,7 @@ import com.apexmc.skyblock.core.data.BlockPosition;
 import com.apexmc.skyblock.core.data.GeneratorState;
 import com.apexmc.skyblock.core.data.IslandProfile;
 import com.apexmc.skyblock.core.data.PlayerProfile;
-import com.apexmc.skyblock.core.economy.EconomyBridge;
+import com.apexmc.skyblock.core.economy.EconomyGateway;
 import com.apexmc.skyblock.core.mastery.MasteryService;
 import com.apexmc.skyblock.core.progression.IslandProgressionService;
 import com.apexmc.skyblock.core.skills.WeightedTable;
@@ -35,14 +35,14 @@ public final class GeneratorService {
     private final TokenService tokens;
     private final IslandProgressionService islands;
     private final MasteryService mastery;
-    private EconomyBridge economy;
+    private EconomyGateway economy;
     private String masteryCategoryId = "generators";
 
     private final Map<String, GeneratorState> byPosition = new ConcurrentHashMap<>();
     private final Map<UUID, Map<UUID, GeneratorState>> byIsland = new ConcurrentHashMap<>();
 
     public GeneratorService(Map<String, GeneratorType> types, TokenService tokens,
-                            IslandProgressionService islands, MasteryService mastery, EconomyBridge economy) {
+                            IslandProgressionService islands, MasteryService mastery, EconomyGateway economy) {
         this.types = Map.copyOf(types);
         this.tokens = tokens;
         this.islands = islands;
@@ -121,7 +121,7 @@ public final class GeneratorService {
         this.types = Map.copyOf(types);
     }
 
-    public void economy(EconomyBridge economy) {
+    public void economy(EconomyGateway economy) {
         this.economy = economy;
     }
 
@@ -249,15 +249,11 @@ public final class GeneratorService {
         if (!tokens.has(payer, tier.tokenCost())) {
             return UpgradeOutcome.fail("insufficient-tokens", state.tier());
         }
-        if (tier.moneyCost() > 0) {
-            if (!economy.available()) {
-                return UpgradeOutcome.fail("economy-unavailable", state.tier());
-            }
-            if (!economy.has(payer.playerId(), tier.moneyCost())) {
-                return UpgradeOutcome.fail("insufficient-money", state.tier());
-            }
+        EconomyGateway.Charge charge = economy.quote(payer.playerId(), tier.moneyCost());
+        if (!charge.ok()) {
+            return UpgradeOutcome.fail(charge.reason(), state.tier());
         }
-        return UpgradeOutcome.ok(next, tier.tokenCost(), tier.moneyCost());
+        return UpgradeOutcome.ok(next, tier.tokenCost(), charge.amount());
     }
 
     /** Charges and applies a tier upgrade. */

@@ -113,7 +113,14 @@ public final class IslandLevelConfig {
 
     /** Island level at which an unlock becomes available, if it is configured at all. */
     public Optional<Integer> unlockLevel(String unlockId) {
-        return Optional.ofNullable(unlockLevels.get(Ids.normalize(unlockId)));
+        if (unlockId == null || unlockId.isBlank()) {
+            return Optional.empty();
+        }
+        try {
+            return Optional.ofNullable(unlockLevels.get(Ids.normalize(unlockId)));
+        } catch (IllegalArgumentException ex) {
+            return Optional.empty();
+        }
     }
 
     public Map<String, Integer> unlockLevels() {
