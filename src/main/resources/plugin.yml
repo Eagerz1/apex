@@ -1,0 +1,53 @@
+name: ApexSkyBlockProgression
+version: '1.0.0'
+main: com.apexmc.skyblock.paper.ApexSkyblockPlugin
+api-version: '1.21'
+authors: [Apex]
+description: Standalone SkyBlock progression - island levels, mastery, roles, OmniTools, generators, spawners, companions and Sky Tokens.
+website: https://github.com/Eagerz1/apex
+softdepend: [Vault, PlaceholderAPI]
+folia-supported: false
+
+commands:
+  progression:
+    description: Open the progression overview or run a subcommand.
+    usage: /progression [help|island|mastery|roles|omnitool|generators|spawners|companions|tokens|admin]
+    aliases: [prog, apexsb]
+  islevel:
+    description: Show island level, progress and upcoming unlocks.
+    usage: /islevel
+    aliases: [islandlevel]
+  mastery:
+    description: Open the island mastery menu.
+    usage: /mastery
+  roles:
+    description: Open the role selection menu.
+    usage: /roles
+    aliases: [role]
+  omnitool:
+    description: Open the OmniTool upgrade menu for your active role.
+    usage: /omnitool
+    aliases: [omni]
+  generators:
+    description: Manage the generators placed on your island.
+    usage: /generators
+    aliases: [gens]
+  spawners:
+    description: Manage the spawners placed on your island.
+    usage: /spawners
+  companions:
+    description: Open the companion collection.
+    usage: /companions
+    aliases: [pets]
+  skytokens:
+    description: Show or transfer your Sky Token balance.
+    usage: /skytokens [balance|pay <player> <amount>]
+    aliases: [tokens]
+
+permissions:
+  apexskyblock.use:
+    description: Access to the progression menus and commands.
+    default: true
+  apexskyblock.admin:
+    description: Access to /progression admin.
+    default: op

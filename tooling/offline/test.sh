@@ -7,7 +7,7 @@ OUT=build/offline
 rm -rf $OUT/testkit $OUT/test && mkdir -p $OUT/testkit $OUT/test
 find tooling/offline/testkit -name '*.java' > $OUT/testkit-sources.txt
 javac_run -d $OUT/testkit @$OUT/testkit-sources.txt
-./tooling/offline/compile-core.sh > /dev/null
+./tooling/offline/compile-all.sh > /dev/null
 find src/test/java -name '*.java' > $OUT/test-sources.txt
-javac_run -Xlint:all -cp "$OUT/core:$OUT/testkit" -d $OUT/test @$OUT/test-sources.txt
-"$JAVA_BIN" -cp "$OUT/core:$OUT/testkit:$OUT/test:src/main/resources" org.junit.jupiter.api.Runner "$OUT/test"
+javac_run -Xlint:all -cp "$OUT/core:$OUT/paper:$OUT/stubs:$OUT/testkit" -d $OUT/test @$OUT/test-sources.txt
+"$JAVA_BIN" -cp "$OUT/core:$OUT/paper:$OUT/stubs:$OUT/testkit:$OUT/test:src/main/resources" org.junit.jupiter.api.Runner "$OUT/test"

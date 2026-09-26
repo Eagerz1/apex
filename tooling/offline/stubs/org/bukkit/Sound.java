@@ -1,0 +1,5 @@
+package org.bukkit;
+
+public enum Sound {
+    ENTITY_PLAYER_LEVELUP, UI_BUTTON_CLICK, ENTITY_EXPERIENCE_ORB_PICKUP, BLOCK_NOTE_BLOCK_PLING;
+}
