@@ -134,7 +134,8 @@ public final class ApexSkyblockPlugin extends JavaPlugin {
 
     private void registerListeners() {
         Bukkit.getPluginManager().registerEvents(new ConnectionListener(runtime), this);
-        Bukkit.getPluginManager().registerEvents(new GameplayListener(runtime), this);
+        int maxAreaBlocks = BukkitConfigAdapter.toCfg(getConfig()).sectionOrEmpty("general").getInt("max-area-blocks", 27);
+        Bukkit.getPluginManager().registerEvents(new GameplayListener(runtime, maxAreaBlocks), this);
         Bukkit.getPluginManager().registerEvents(new StructureListener(runtime), this);
         Bukkit.getPluginManager().registerEvents(new MenuListener(), this);
     }

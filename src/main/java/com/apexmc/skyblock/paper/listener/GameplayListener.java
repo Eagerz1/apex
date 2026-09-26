@@ -34,10 +34,12 @@ import org.bukkit.inventory.ItemStack;
 public final class GameplayListener implements Listener {
 
     private final SkyblockRuntime runtime;
+    private final ToolEffects effects;
     private final RandomGenerator random = new java.util.Random();
 
-    public GameplayListener(SkyblockRuntime runtime) {
+    public GameplayListener(SkyblockRuntime runtime, int maxAreaBlocks) {
         this.runtime = runtime;
+        this.effects = new ToolEffects(runtime, maxAreaBlocks);
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -52,10 +54,47 @@ public final class GameplayListener implements Listener {
         if (type == SkillType.FARMING && !isMature(block)) {
             return;
         }
-        award(player, type, key, 1);
+        Optional<PlayerProfile> maybeProfile = runtime.profile(player);
+        if (maybeProfile.isEmpty()) {
+            return;
+        }
+        PlayerProfile profile = maybeProfile.get();
+        String toolId = effects.activeToolId(profile);
+
+        int extraBlocks = applyToolEffects(player, profile, toolId, block, type);
+        award(player, type, key, 1 + extraBlocks);
+        effects.applyFortune(player, new ItemStack(block.getType()),
+                effects.effect(profile, toolId, "fortune"), random);
         if (type == SkillType.FARMING) {
             autoReplant(player, block);
         }
+    }
+
+    /**
+     * Applies area mining, tree felling and harvest radius. Returns how many
+     * extra blocks were broken so they are all rewarded in one payout.
+     */
+    private int applyToolEffects(Player player, PlayerProfile profile, String toolId, Block block, SkillType type) {
+        if (toolId.isEmpty()) {
+            return 0;
+        }
+        java.util.List<Block> extra = java.util.List.of();
+        if (type == SkillType.MINING) {
+            extra = effects.areaBlocks(block, (int) effects.effect(profile, toolId, "area_mining"));
+        } else if (type == SkillType.LOGGING) {
+            extra = effects.treeLogs(block, (int) effects.effect(profile, toolId, "lumber"));
+        } else if (type == SkillType.FARMING) {
+            extra = effects.areaBlocks(block, (int) effects.effect(profile, toolId, "crop_radius"));
+        }
+        for (Block additional : extra) {
+            ItemStack drop = new ItemStack(additional.getType());
+            additional.setType(Material.AIR);
+            java.util.Map<Integer, ItemStack> overflow = player.getInventory().addItem(drop);
+            if (overflow != null) {
+                overflow.values().forEach(left -> player.getWorld().dropItemNaturally(player.getLocation(), left));
+            }
+        }
+        return extra.size();
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
